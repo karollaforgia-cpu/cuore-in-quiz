@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Un quiz semplice e divertente sull'apparato cardiocircolatorio per la prima media.">
+<title>Cuore in Quiz ❤️</title>
+<style>
+:root{--navy:#153d70;--blue:#2866a4;--red:#dc3d38;--pink:#fff0f3;--ink:#172b50;--muted:#52627b;--line:#d7dfed}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:linear-gradient(145deg,#fff1f4,#eaf4ff);color:var(--ink);min-height:100vh}
+header{background:var(--navy);color:white;padding:17px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-size:clamp(1.35rem,4vw,2rem);font-weight:900}.tag{font-size:.9rem;background:#fff;color:var(--navy);padding:8px 14px;border-radius:99px;font-weight:700}
+main{max-width:900px;margin:28px auto;padding:0 16px 35px}.hero{text-align:center;padding:25px 12px 30px}.heart{font-size:76px}.hero h1{font-size:clamp(2rem,6vw,3.2rem);line-height:1.08;margin:8px 0;color:var(--navy)}.hero h1 span{color:var(--red)}.hero p{font-size:1.12rem;color:var(--muted)}
+.card{background:white;border:1px solid var(--line);border-radius:24px;padding:clamp(18px,4vw,30px);box-shadow:0 8px 26px #1c477015}
+button{font:inherit;cursor:pointer}.primary{border:0;border-radius:99px;background:var(--red);color:white;font-weight:850;padding:14px 25px;box-shadow:0 4px 0 #a92725}.primary:hover{filter:brightness(.96)}.center{text-align:center}
+.hidden{display:none!important}.topline{display:flex;justify-content:space-between;gap:10px;font-weight:800;color:var(--navy);font-size:.92rem}.track{height:10px;background:#e8edf5;border-radius:99px;overflow:hidden;margin:13px 0 22px}.fill{height:100%;background:var(--red);width:0;transition:width .2s}
+.question{font-size:clamp(1.25rem,4vw,1.7rem);margin:0 0 18px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:11px}.answer{padding:14px;border:2px solid var(--line);border-radius:15px;background:#fff;text-align:left;color:var(--ink);font-weight:650}.answer:hover:not(:disabled){border-color:var(--blue);background:#f4f8ff}.answer:disabled{cursor:default}.answer.correct{border-color:#19964b;background:#e5f8eb;color:#14532d}.answer.wrong{border-color:#d33;background:#ffebeb;color:#822}
+.feedback{margin-top:17px;padding:15px;border-radius:15px;background:#eef5ff;line-height:1.5}.feedback.good{background:#e5f8eb;color:#14532d}.feedback.bad{background:#ffeded;color:#822}.nextrow{text-align:right;margin-top:16px}
+.result-score{font-size:3rem;font-weight:950;color:var(--red);margin:6px}.small{color:var(--muted)}footer{text-align:center;color:var(--muted);padding:22px 8px}
+@media(max-width:580px){.answers{grid-template-columns:1fr}header{align-items:flex-start;flex-direction:column}.tag{font-size:.8rem}.hero{padding-top:18px}}
+</style>
+</head>
+<body>
+<header><div class="brand">❤️ Cuore in Quiz</div><div class="tag">Impara · Rispondi · Scopri ⭐</div></header>
+<main>
+<section class="hero"><div class="heart" aria-hidden="true">🫀</div><h1>Quanto ne sai sull’apparato <span>cardiocircolatorio</span>?</h1><p>Scoprilo con il nostro test a crocette!</p></section>
+<section class="card center" id="start"><h2>Pronto a mettere alla prova le tue conoscenze?</h2><p class="small">10 domande semplici, curiosità e un punteggio finale. Buon divertimento!</p><button class="primary" id="begin">INIZIA IL QUIZ →</button></section>
+<section class="card hidden" id="game" aria-live="polite">
+<div class="topline"><span id="count">DOMANDA 1 DI 10</span><span id="score">⭐ 0 punti</span></div><div class="track"><div class="fill" id="bar"></div></div>
+<h2 class="question" id="question"></h2><div class="answers" id="answers"></div><div class="feedback hidden" id="feedback"></div><div class="nextrow"><button class="primary hidden" id="next">PROSSIMA →</button></div>
+</section>
+<section class="card center hidden" id="result"><div style="font-size:4rem" id="medal">🏆</div><h2>Quiz completato!</h2><div class="result-score" id="final">0 / 10</div><p id="message" class="small"></p><p>❤️ Il tuo cuore lavora ogni giorno per te: prenditene cura!</p><button class="primary" id="retry">RIGIOCA ↻</button></section>
+</main>
+<footer>Un piccolo quiz… per un grande cuore! ❤️</footer>
+<script>
+const questions=[
+{q:"Qual è il compito principale del cuore?",a:["Far circolare il sangue","Digerire il cibo","Farci vedere"],c:0,f:"Il cuore è una pompa muscolare che spinge il sangue in tutto il corpo.",t:"Il cuore batte circa 100.000 volte al giorno!"},
+{q:"Che cos'è il cuore?",a:["Un osso","Un muscolo","Un polmone"],c:1,f:"Il cuore è un organo formato soprattutto da tessuto muscolare.",t:"Il cuore è grande più o meno quanto il pugno della propria mano."},
+{q:"Come si chiamano i tubicini che trasportano il sangue?",a:["I nervi","Le ossa","I vasi sanguigni"],c:2,f:"Arterie, vene e capillari sono i principali tipi di vasi sanguigni.",t:"I vasi sanguigni formano una rete che raggiunge tutte le parti del corpo."},
+{q:"Quali organi permettono al sangue di ricevere ossigeno?",a:["I polmoni","I reni","Lo stomaco"],c:0,f:"Nei polmoni il sangue riceve ossigeno e lascia anidride carbonica.",t:"Quando inspiriamo, l'ossigeno entra nei polmoni e passa nel sangue."},
+{q:"Come si chiamano i vasi che portano il sangue dal cuore verso il corpo?",a:["Le vene","Le arterie","I capillari"],c:1,f:"Le arterie trasportano il sangue dal cuore verso gli organi.",t:"L'arteria più grande del corpo si chiama aorta."},
+{q:"Come si chiamano i vasi che riportano il sangue al cuore?",a:["Le arterie","I capillari","Le vene"],c:2,f:"Le vene riportano il sangue dagli organi al cuore.",t:"Le valvole presenti in molte vene aiutano il sangue a procedere nella direzione giusta."},
+{q:"A cosa servono i capillari?",a:["A collegare arterie e vene e scambiare sostanze","A produrre ossa","A digerire il cibo"],c:0,f:"I capillari sono vasi piccolissimi dove avvengono scambi di ossigeno e sostanze nutritive.",t:"Le pareti dei capillari sono sottilissime."},
+{q:"Quale sostanza trasporta il sangue alle cellule per aiutarle a vivere?",a:["La sabbia","L'ossigeno","La plastica"],c:1,f:"Il sangue porta ossigeno e sostanze nutritive alle cellule.",t:"I globuli rossi contengono emoglobina, che lega l'ossigeno."},
+{q:"Che cosa succede al battito del cuore quando corriamo?",a:["Si ferma","Resta sempre uguale","Diventa più veloce"],c:2,f:"Durante l'attività fisica il cuore batte più velocemente per portare più ossigeno ai muscoli.",t:"Anche il respiro diventa più rapido quando facciamo movimento."},
+{q:"Qual è uno dei compiti del sangue?",a:["Trasportare ossigeno e sostanze nutritive","Dare colore agli occhi","Formare i capelli"],c:0,f:"Il sangue trasporta sostanze utili e aiuta anche a difendere il corpo.",t:"Il sangue è composto da plasma, globuli rossi, globuli bianchi e piastrine."}
+];
+let i=0,points=0,locked=false;
+const $=id=>document.getElementById(id);
+function begin(){i=0;points=0;$("start").classList.add("hidden");$("result").classList.add("hidden");$("game").classList.remove("hidden");render()}
+function render(){locked=false;let q=questions[i];$("count").textContent=`DOMANDA ${i+1} DI ${questions.length}`;$("score").textContent=`⭐ ${points} punti`;$("bar").style.width=`${i/questions.length*100}%`;$("question").textContent=q.q;$("feedback").className="feedback hidden";$("next").classList.add("hidden");$("next").textContent=i===9?"VEDI IL RISULTATO →":"PROSSIMA →";$("answers").replaceChildren();q.a.forEach((a,n)=>{let b=document.createElement("button");b.className="answer";b.textContent=String.fromCharCode(65+n)+") "+a;b.onclick=()=>choose(n);$("answers").append(b)})}
+function choose(n){if(locked)return;locked=true;let q=questions[i],ok=n===q.c;if(ok)points++;[...$("answers").children].forEach((b,k)=>{b.disabled=true;if(k===q.c)b.classList.add("correct");else if(k===n)b.classList.add("wrong")});$("score").textContent=`⭐ ${points} punti`;let f=$("feedback");f.className="feedback "+(ok?"good":"bad");f.innerHTML=`<strong>${ok?"🎉 Bravissimo! Risposta corretta!":"😊 Non proprio! La risposta giusta è: "+q.a[q.c]+"."}</strong><p>${q.f}</p><p>💡 <strong>Curiosità:</strong> ${q.t}</p>`;$("next").classList.remove("hidden")}
+function next(){i++;if(i<questions.length)render();else finish()}
+function finish(){$("game").classList.add("hidden");$("result").classList.remove("hidden");$("bar").style.width="100%";$("final").textContent=points+" / 10";$("medal").textContent=points===10?"🏆":points>=7?"🥇":points>=5?"🌟":"💪";$("message").textContent=points===10?"Fantastico! Sei un vero esperto del cuore!":points>=7?"Ottimo lavoro! Conosci davvero bene il cuore!":points>=5?"Bravo! Hai imparato tante cose. Continua a esercitarti!":"Non scoraggiarti! Riprova e scoprirai tante cose nuove."}
+$("begin").onclick=begin;$("next").onclick=next;$("retry").onclick=begin;
+</script>
+</body></html>
